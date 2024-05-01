@@ -1,3 +1,126 @@
-<main>
-  <h1 class="text-3xl font-bold underline">Hello world!</h1>
+<main class="grid grid-cols-12 gap-4 p-4 min-h-[100dvh]">
+  <div class="col-span-12 md:col-span-6 space-y-8">
+    <header class="border-b py-4">
+      <h5 class="text-2xl font-semibold select-none">LLM Form</h5>
+    </header>
+
+    <form class="grid grid-cols-12 gap-2" [formGroup]="llmForm">
+      <div class="flex flex-col space-y-2 col-span-12">
+        <label class="text-xs uppercase font-semibold select-none"
+          >Fill our your address</label
+        >
+        <textarea
+          formControlName="text"
+          class="w-full border rounded-md px-1 py-0.5"
+          rows="6"
+        ></textarea>
+
+        <div class="flex flex-row items-center space-x-2">
+          @if (loading) {
+          <span>...</span>
+          }
+
+          <span class="text-xs font-semibold select-none">
+            {{ hint }}
+          </span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-span-12 md:col-span-6 space-y-8">
+    <header class="border-b py-4">
+      <h5 class="text-2xl font-semibold select-none">Normal Form</h5>
+    </header>
+
+    <form class="grid grid-cols-12 gap-2" [formGroup]="regularForm">
+      <div formGroupName="name" class="flex flex-col space-y-2 col-span-6">
+        <label class="text-xs uppercase font-semibold select-none"
+          >First Name</label
+        >
+        <input
+          formControlName="first"
+          class="w-full border rounded-md px-1 py-0.5"
+        />
+      </div>
+
+      <div formGroupName="name" class="flex flex-col space-y-2 col-span-6">
+        <label class="text-xs uppercase font-semibold select-none"
+          >Last Name</label
+        >
+        <input
+          formControlName="last"
+          class="w-full border rounded-md px-1 py-0.5"
+        />
+      </div>
+
+      <div formGroupName="address" class="flex flex-col space-y-2 col-span-12">
+        <label class="text-xs uppercase font-semibold select-none"
+          >Address 01</label
+        >
+        <input
+          formControlName="address01"
+          class="w-full border rounded-md px-1 py-0.5"
+        />
+      </div>
+
+      <div formGroupName="address" class="flex flex-col space-y-2 col-span-12">
+        <label class="text-xs uppercase font-semibold select-none"
+          >Address 02 (Optional)</label
+        >
+        <input
+          formControlName="address02"
+          class="w-full border rounded-md px-1 py-0.5"
+        />
+      </div>
+
+      <div formGroupName="address" class="flex flex-col space-y-2 col-span-5">
+        <label class="text-xs uppercase font-semibold select-none">City</label>
+        <input
+          formControlName="city"
+          class="w-full border rounded-md px-1 py-0.5"
+        />
+      </div>
+
+      <div formGroupName="address" class="flex flex-col space-y-2 col-span-2">
+        <label class="text-xs uppercase font-semibold select-none">State</label>
+        <input
+          formControlName="state"
+          class="w-full border rounded-md px-1 py-0.5"
+        />
+      </div>
+
+      <div formGroupName="address" class="flex flex-col space-y-2 col-span-5">
+        <label class="text-xs uppercase font-semibold select-none"
+          >Zip Code</label
+        >
+        <input
+          formControlName="zipcode"
+          class="w-full border rounded-md px-1 py-0.5"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="col-span-12">
+    <form
+      class="grid grid-cols-12 gap-2"
+      [formGroup]="credentialsForm"
+      (ngSubmit)="setClient()"
+    >
+      <div class="col-span-10">
+        <input
+          type="password"
+          formControlName="apiKey"
+          class="w-full border rounded-md px-1 py-0.5"
+          placeholder="OpenAI API Key"
+        />
+      </div>
+      <div class="col-span-2">
+        <button type="submit" class="bg-slate-300 px-2 py-1 rounded-md w-full">
+          <span class="line-clamp-1"> Submit </span>
+        </button>
+      </div>
+    </form>
+  </div>
 </main>
