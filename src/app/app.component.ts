@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'llm-reactive-forms';
 
   openai?: any;
-  hint?: string;
+  hint?: string = `✨ Start typing to fill out the form...`;
   loading = false;
 
   credentialsForm = new FormGroup({
@@ -95,6 +95,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (message.trim() === '') return;
 
+    // TODO: Would be fun to figure out how to
+    // dynamically generate the form schema.
+
     const completion = await this.openai.chat.completions.create({
       messages: [
         {
@@ -126,10 +129,10 @@ export class AppComponent implements OnInit, OnDestroy {
           Task:
           Given the following message, fill out the form from the message.
           If there are any missing fields that are requried by the form provide a 1 sentence helpful hint to the human for them to know how they should modify their message.
-          Do not reference the names of the fields in the hint.
+          The hint should be focused and instructional.
           When possible clean up the values of the form.
           Only provide hints for missing fields.
-          If all fields of the form are satisfied, set the "ready" field to true.
+          If all required fields of the form are satisfied, set the "ready" field to true.
 
           Message:
           """
@@ -157,10 +160,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
       this.regularForm.patchValue(data.values);
 
-      this.hint =
-        (data.hint ?? '').trim() !== ''
-          ? `ℹ️ ${data.hint}`
-          : '✅ Thanks, form is filled!';
+      this.hint = (data.hint ?? '').trim() !== '' ? `ℹ️ ${data.hint}` : ``;
+
+      if (data.ready) {
+        this.hint = '✅ Thanks, form is filled!';
+      }
 
       this.cdRef.markForCheck();
     } catch (err) {
